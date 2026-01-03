@@ -147,29 +147,41 @@ jobs:
             echo "is_submission=true" >> $GITHUB_OUTPUT
           fi
 
-      # Determine badge level from issue body "My Level:" field
+      # Determine badge level from issue labels or body
       - name: Determine badge level
         id: badge-level
         run: |
+          labels="${{ join(github.event.issue.labels.*.name, ' ') }}"
           body="${{ github.event.issue.body }}"
-          # Extract level from "**My Level:**" field
-          if [[ "$body" =~ \*\*My\ Level:\*\*[[:space:]]*([a-zA-Z]+) ]]; then
+          
+          # Check labels first
+          if [[ "$labels" == *"beginner"* ]]; then
+            echo "level=beginner" >> $GITHUB_OUTPUT
+            echo "badge_file=Beginner.png" >> $GITHUB_OUTPUT
+          elif [[ "$labels" == *"intermediate"* ]]; then
+            echo "level=intermediate" >> $GITHUB_OUTPUT
+            echo "badge_file=Intermediate.png" >> $GITHUB_OUTPUT
+          elif [[ "$labels" == *"advanced"* ]]; then
+            echo "level=advanced" >> $GITHUB_OUTPUT
+            echo "badge_file=Advanced.png" >> $GITHUB_OUTPUT
+          elif [[ "$body" =~ \*\*My\ Level:\*\*[[:space:]]*([a-zA-Z]+) ]]; then
+            # Extract level from "**My Level:**" field if no labels
             level="${BASH_REMATCH[1]}"
             level_lower=$(echo "$level" | tr '[:upper:]' '[:lower:]')
             if [[ "$level_lower" == "beginner" ]]; then
               echo "level=beginner" >> $GITHUB_OUTPUT
-              echo "badge_label=🟢-Beginner" >> $GITHUB_OUTPUT
+              echo "badge_file=Beginner.png" >> $GITHUB_OUTPUT
             elif [[ "$level_lower" == "intermediate" ]]; then
               echo "level=intermediate" >> $GITHUB_OUTPUT
-              echo "badge_label=🟡-Intermediate" >> $GITHUB_OUTPUT
+              echo "badge_file=Intermediate.png" >> $GITHUB_OUTPUT
             elif [[ "$level_lower" == "advanced" ]]; then
               echo "level=advanced" >> $GITHUB_OUTPUT
-              echo "badge_label=🔴-Advanced" >> $GITHUB_OUTPUT
+              echo "badge_file=Advanced.png" >> $GITHUB_OUTPUT
             fi
           fi
 
       # Add completed badge label
-      - name: Add completion badge
+      - name: Add completion badge labels
         if: steps.check-submission.outputs.is_submission == 'true' && steps.badge-level.outputs.level != ''
         uses: actions/github-script@v7
         with:
@@ -182,18 +194,21 @@ jobs:
               labels: ['reviewed', 'completed', '${{ steps.badge-level.outputs.level }}']
             });
 
-      # Add completion comment
-      - name: Add completion comment
-        if: steps.check-submission.outputs.is_submission == 'true'
+      # Add completion comment with badge image
+      - name: Add completion comment with badge
+        if: steps.check-submission.outputs.is_submission == 'true' && steps.badge-level.outputs.level != ''
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const badge = '${{ steps.badge-level.outputs.badge_label }}' || '✅';
+            const level = '${{ steps.badge-level.outputs.level }}';
+            const badgeFile = '${{ steps.badge-level.outputs.badge_file }}';
+            const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+            
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `✅ **Issue Closed - Badge Awarded!**\n\n${badge}\n\n**Status:** Reviewed and Successfully Completed 🎉\n\nCongratulations! Your submission has been reviewed and successfully completed. You have earned this badge!\n\n📌 **Achievement Unlocked:** ${{ steps.badge-level.outputs.level || 'Badge' }}\n\nGreat work! Keep contributing and earning more badges! 🚀`
+              body: `Hey @${{ github.event.issue.user.login }} ! 👋\nYour issue has been closed — that means you've successfully completed the GitHub for Beginners task!\n\n🏅 **You can now claim your completion badge!**\n\n![Badge](https://github.com/${{ github.repository }}/raw/main/images/${badgeFile})\n\n**Badge Level:** ${capitalize(level)}\n\nFollow me on GitHub - https://github.com/nisalgunawardhana\n\nGreat job, and thank you for contributing! Keep learning and exploring. 🚀`
             });
 
