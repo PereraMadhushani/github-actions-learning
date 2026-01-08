@@ -2,6 +2,13 @@
 
 Welcome to your hands-on learning journey with **GitHub Actions**! This repository is designed for beginners and intermediate developers who want to master CI/CD automation.
 
+<p align="center">
+    <img src="images/banner.png" alt="GitHub for Beginners banner" />
+</p>
+
+[![Follow me on GitHub](https://img.shields.io/github/followers/nisalgunawardhana?label=Follow&style=social)](https://github.com/nisalgunawardhana)
+[![Star this repo](https://img.shields.io/github/stars/nisalgunawardhana/github-actions-learnin?style=social)](https://github.com/nisalgunawardhana/github-actions-learning/stargazers)
+
 ## 📚 What You'll Learn
 
 - ✅ GitHub Actions fundamentals (workflows, jobs, steps)
