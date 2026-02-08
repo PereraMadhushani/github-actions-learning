@@ -5,6 +5,8 @@ on:
     branches: [main, develop]
   workflow_dispatch:
 
+// The workflow is triggered on pushes to the main and develop branches,
+// as well as manually via the GitHub Actions interface.
 jobs:
   hello:
     name: Say Hello
