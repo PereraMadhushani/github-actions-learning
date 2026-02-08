@@ -11,7 +11,7 @@ jobs:
   hello:
     name: Say Hello
     runs-on: ubuntu-latest
-    
+    # This job runs on the latest version of Ubuntu and is named "Say Hello".
     steps:
       - name: Print hello message
         run: echo "🎉 Hello from GitHub Actions!"
