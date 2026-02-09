@@ -19,7 +19,7 @@ jobs:
       
       - name: Print current time
         run: date
-      
+      # The above step prints the current date and time to the console.
       - name: Print runner information
         run: |
           echo "Runner OS: ${{ runner.os }}"
