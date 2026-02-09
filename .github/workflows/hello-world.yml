@@ -17,6 +17,7 @@ jobs:
       - name: Print hello message
         run: echo "🎉 Hello from GitHub Actions!"
       
+      # The next step prints the current date and time to the console.
       - name: Print current time
         run: date
       
