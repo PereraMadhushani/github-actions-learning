@@ -1,0 +1,28 @@
+name: Conditional Deployment
+
+on:
+  push:
+    branches: [main, develop]
+
+jobs:
+  build-and-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build application
+        run: echo "Building application..."
+      
+      - name: Run tests
+        run: echo "Running tests..."
+      
+      - name: Deploy (main only)
+        if: github.ref == 'refs/heads/main'
+        run: echo "Deploying to production..."
+      
+      - name: Skip deployment (develop)
+        if: github.ref == 'refs/heads/develop'
+        run: echo "Skipping deployment on develop branch"
