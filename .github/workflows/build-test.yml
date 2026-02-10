@@ -15,6 +15,10 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
     
+    env:
+      NODE_ENV: test
+      log_level: debug
+
     strategy:
       matrix:
         node-version: [16.x, 18.x]
@@ -64,6 +68,11 @@ jobs:
           else
             echo "⚠️ No coverage report found"
           fi
+
+      - name: Print environment variables
+        run: |
+          echo "Environment: ${{ env.NODE_ENV }}"
+          echo "Log Level: ${{ env.LOG_LEVEL }}"
 
   lint-check:
     name: Lint Check
