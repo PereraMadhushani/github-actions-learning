@@ -11,7 +11,8 @@ app.get('/', (req, res) => {
   res.json({
     message: 'Welcome to GitHub Actions Learning App!',
     status: 'OK',
-    version: '1.0.0'
+    version: '1.1.0',
+    branch: process.env.GITHUB_REF || 'local'
   });
 });
 
