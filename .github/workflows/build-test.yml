@@ -33,7 +33,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build-output
+          name: build-output-${{ matrix.node-version }}
           path: output.txt
       
       - name: Setup Node.js ${{ matrix.node-version }}
@@ -124,16 +124,17 @@ jobs:
     needs: [build-and-test]
     
     steps:
-      - name: Download build output artifact
+      - name: Download all build output artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-output
+          path: artifacts
       
       - name: Display artifact contents
         run: |
           echo "Downloaded artifact contents:"
-          if [ -f output.txt ]; then
-            cat output.txt
-          else
-            echo " output.txt not found"
-          fi
+          ls -la artifacts/
+          for dir in artifacts/*/; do
+            echo ""
+            echo "Contents of $(basename "$dir"):"
+            cat "$dir/output.txt" 2>/dev/null || echo "⚠️ output.txt not found"
+          done
