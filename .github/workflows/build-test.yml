@@ -53,7 +53,7 @@ jobs:
       
       - name: Upload coverage reports
         if: matrix.node-version == '18.x'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage-report-${{ matrix.node-version }}
           path: sample-app/coverage/
@@ -87,7 +87,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'sample-app/package-lock.json'
       
-      - working-directory: ./sample-app
+      - name: Install dependencies
+        working-directory: ./sample-app
         run: npm ci
       
       - name: Run ESLint
