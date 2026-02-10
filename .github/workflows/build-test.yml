@@ -35,6 +35,11 @@ jobs:
         with:
           name: build-output-${{ matrix.node-version }}
           path: output.txt
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+        files: ./sample-app/coverage/coverage-final.json
       
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
