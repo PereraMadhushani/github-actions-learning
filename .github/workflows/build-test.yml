@@ -69,11 +69,6 @@ jobs:
             echo "⚠️ No coverage report found"
           fi
 
-      - name: Print environment variables
-        run: |
-          echo "Environment: ${{ env.NODE_ENV }}"
-          echo "Log Level: ${{ env.LOG_LEVEL }}"
-
   lint-check:
     name: Lint Check
     runs-on: ubuntu-latest
