@@ -31,6 +31,10 @@ jobs:
       
       - name: Check out code
         uses: actions/checkout@v3
+
+      - name: Access Secrets
+        run: |
+          echo "Secret length:${#{{ secrets.TEST_SECRET }}}"
       
       - name: List files
         run: ls -la
@@ -38,5 +42,3 @@ jobs:
       - name: Print success message
         run: echo "✅ Workflow completed successfully!"
 
-      - name: Access Secrets
-        run: echo "Secret length:${#{{ secrets.TEST_SECRET }}}"
