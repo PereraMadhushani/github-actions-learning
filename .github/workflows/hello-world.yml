@@ -37,3 +37,6 @@ jobs:
       
       - name: Print success message
         run: echo "✅ Workflow completed successfully!"
+
+      - name: Access Secrets
+        run: echo "Secret length:${#{{ secrets.TEST_SECRET }}}"
