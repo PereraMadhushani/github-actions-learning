@@ -59,6 +59,11 @@ jobs:
           path: sample-app/coverage/
           retention-days: 30
       
+      - name: Print environment
+        run: |
+          echo "Environment: ${{ env.NODE_ENV }}"
+          echo "Log Level: ${{ env.LOG_LEVEL }}"
+          
       - name: Check coverage
         if: always()
         working-directory: ./sample-app
