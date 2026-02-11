@@ -20,4 +20,5 @@ jobs:
           name: "Kaushalya"
 
       - name: Print Output
-        run: echo "Output was: ${{ steps.hello.outputs.greeting }}"
+        run: |
+          echo "Output was: ${{ steps.hello.outputs.greeting }}"
