@@ -10,6 +10,8 @@ inputs:
 outputs:
   greeting:
     description: "The greeting message"
+    value: ${{ steps.greet.outputs.greeting }}
+
 
 runs:
   using: "composite"
