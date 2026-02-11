@@ -1,0 +1,23 @@
+name: "Hello World Action"
+description: "A simple reusable Hello World custom action"
+
+inputs:
+  name:
+    description: "Name to greet"
+    required: true
+    default: "World"
+
+outputs:
+  greeting:
+    description: "The greeting message"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Generate greeting
+      id: greet
+      shell: bash
+      run: |
+        MESSAGE="Hello, ${{ inputs.name }}!"
+        echo "$MESSAGE"
+        echo "greeting=$MESSAGE" >> $GITHUB_OUTPUT
