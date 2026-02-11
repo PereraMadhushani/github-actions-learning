@@ -17,7 +17,7 @@ jobs:
         id: hello
         uses: ./.github/actions/hello-world-action
         with:
-          name: Kaushalya
+          name: "Kaushalya"
 
       - name: Print Output
         run: echo "Output was: ${{ steps.hello.outputs.greeting }}"
